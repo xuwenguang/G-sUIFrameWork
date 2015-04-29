@@ -9,15 +9,8 @@ public class UIManagerEditor : Editor
 {
 	void OnEnable()
 	{
-//		foreach(Delegate d in EditorApplication.playmodeStateChanged.GetInvocationList())
-//		{
-//			Debug.LogWarning(d.Method.Name);
-//			if(d.Method.Name=="CheckIfScreenIsNull")
-//			{
-//				return;
-//			}
-//		}
 		EditorApplication.playmodeStateChanged += CheckIfScreenIsNull;
+
 	}
 
 
@@ -29,6 +22,7 @@ public class UIManagerEditor : Editor
 			SceneTypeVerification();
 			UpdateMasterScenePath();
 			UpdateBuildSetting();
+			UpdateAutoLoadInfo();
 		}
 	}
 
@@ -93,5 +87,12 @@ public class UIManagerEditor : Editor
 	{
 		var uimanager = target as UIManager;
 		uimanager.UpdateBuildSettingScenes ();
+	}
+
+	public void UpdateAutoLoadInfo()
+	{
+		var uimanager = target as UIManager;
+		AutoLoadBootScene.AutoLoadBoot = uimanager.AutoLoadBootScene;
+		AutoLoadBootScene.MasterScene = EditorApplication.currentScene;
 	}
 }

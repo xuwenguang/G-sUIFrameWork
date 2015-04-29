@@ -56,7 +56,6 @@
      <Compile Include="Assets\Scenes\NextScreenBtn.cs" />
      <Compile Include="Assets\Scenes\ScreenRoot.cs" />
      <Compile Include="Assets\Scenes\UIManager.cs" />
-     <None Include="Assets\skybox\Shaders\SkyboxHDR.shader" />
  <Reference Include="UnityEngine.UI">
  <HintPath>/Applications/Unity5/Unity.app/Contents/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>

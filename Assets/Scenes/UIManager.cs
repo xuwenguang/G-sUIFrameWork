@@ -39,6 +39,9 @@ public class UIManager : MonoBehaviour {
 //	 Use this for initialization
 	void Awake()
 	{
+#if UNITY_EDITOR
+		EditorApplication.playmodeStateChanged += AutoLoadBootScene.OnPlayModeChanged;
+#endif
 		if(instance==null)
 		{
 			instance=this;
@@ -83,17 +86,6 @@ public class UIManager : MonoBehaviour {
 				sceneList.Add(new EditorBuildSettingsScene(scenePath,true));
 		}
 		EditorBuildSettings.scenes = sceneList.ToArray ();
-
-		//save current scene path
-		if(AutoLoadBootScene)
-		{
-			PlayerPrefs.SetString(UIManager.MasterScenePathKey,EditorApplication.currentScene);
-		}
-		else
-		{
-			PlayerPrefs.SetString(UIManager.MasterScenePathKey,"");
-		}
-		PlayerPrefs.Save();
 	}
 #endif
 

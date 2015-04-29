@@ -46,10 +46,10 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Editor\AutoLoadBootScene.cs" />
      <Compile Include="Assets\Editor\CreateObject.cs" />
      <Compile Include="Assets\Editor\SceneAutoLoad.cs" />
      <Compile Include="Assets\Editor\UIManagerEditor.cs" />
-     <None Include="Assets\skybox\Shaders\SkyboxHDR.shader" />
  <Reference Include="UnityEngine.UI">
  <HintPath>/Applications/Unity5/Unity.app/Contents/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>
