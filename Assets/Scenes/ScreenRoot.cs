@@ -1,18 +1,27 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class ScreenRoot : MonoBehaviour
 {
 	public AnimationClip inAnimation;
 	public AnimationClip outAnimation;
 
+	public AnimationClip back_inAnim;
+	public AnimationClip back_outAnim;
+
+	public bool IsPopUp=false;
+
+	public UnityEvent PreTransitionIn;
+	public UnityEvent AfterTransitionIn;
+	public UnityEvent PreTransitionOut;
+	public UnityEvent AfterTransitionOut;
+
     protected Canvas _canvas;
     private Animation anim;
     private Transform _threeDeeObjects;
 
-    public const string DEFAULT_TRANSITION_IN = "Default_In";
-    public const string DEFAULT_TRANSITION_OUT = "Default_Out";
 
     public event System.Action StartTransitionnInEvent;
 
@@ -35,13 +44,26 @@ public class ScreenRoot : MonoBehaviour
 			// May not have this if no transitions setup
 			//
 			anim = this.gameObject.AddComponent<Animation>();
+			anim.playAutomatically=false;
 			if(inAnimation!=null)
 			{
+				inAnimation.legacy=true;
 				anim.AddClip(inAnimation,inAnimation.name);
 			}
 			if(outAnimation!=null)
 			{
+				outAnimation.legacy=true;
 				anim.AddClip(outAnimation,outAnimation.name);
+			}
+			if(back_inAnim!=null)
+			{
+				back_inAnim.legacy=true;
+				anim.AddClip(back_inAnim,back_inAnim.name);
+			}
+			if(back_outAnim!=null)
+			{
+				back_outAnim.legacy=true;
+				anim.AddClip(back_outAnim,back_outAnim.name);
 			}
 
 			Animator a=this.GetComponent<Animator>() as Animator;
@@ -60,7 +82,7 @@ public class ScreenRoot : MonoBehaviour
 			
 			DebugUtil.Assert( name.StartsWith( "Screen_" ), "Invalid screen name! Structure must be \"Screen_SceneName\" " + name );
 			
-			string sceneName = name.Split( '_' )[1];
+//			string sceneName = name.Split( '_' )[1];
 			
 
 #if UNITY_EDITOR
@@ -69,28 +91,38 @@ public class ScreenRoot : MonoBehaviour
     }
 
 
-    public IEnumerator _TransitionIn( string clipName )
+    public IEnumerator _TransitionIn( bool playAnim ,bool isBackBtn=false)
     {
-        if ( anim != null && inAnimation != null )
+        if ( anim != null && inAnimation != null &&playAnim)
 		{
-			anim.Play( inAnimation.name );
-            while ( anim.IsPlaying( clipName ) )
-            {
-                yield return null;
-            }
+			string animName=outAnimation.name;
+			if(isBackBtn==true && back_inAnim!=null)
+			{
+				animName=back_inAnim.name;
+			}
+			anim.Play( animName );
+			while ( anim.IsPlaying( animName ) )
+			{
+				yield return null;
+			}
         }
     }
 
 
-    public IEnumerator _TransitionOut(  System.Action onFinishCB )
+	public IEnumerator _TransitionOut(  System.Action onFinishCB ,bool playAnim,bool isBackBtn=false)
     {
-        if ( anim != null && outAnimation != null )
+        if ( anim != null && outAnimation != null &&playAnim )
         {
-            anim.Play( outAnimation.name );
-            while ( anim.IsPlaying( outAnimation.name ) )
-            {
-                yield return null;
-            }
+			string animName=outAnimation.name;
+			if(isBackBtn==true && back_outAnim!=null)
+			{
+				animName=back_outAnim.name
+			}
+			anim.Play(animName);
+			while ( anim.IsPlaying(animName) )
+			{
+				yield return null;
+			}
         }
         if ( onFinishCB != null ) onFinishCB();
     }
@@ -106,22 +138,47 @@ public class ScreenRoot : MonoBehaviour
 
     // Called before screen transition in has started
     //
-    public virtual void OnPreTransitionIn() {}
+    public virtual void OnPreTransitionIn() 
+	{
+		if(PreTransitionIn!=null)
+		{
+			PreTransitionIn.Invoke();
+		}
+	}
     
 
     // Called when screen transition in has completed
     //
-    public virtual void OnTransitionInComplete() {}
+    public virtual void OnTransitionInComplete() 
+	{
+		if(AfterTransitionIn!=null)
+		{
+			AfterTransitionIn.Invoke();
+		}
+	}
     
 
     // Called before screen is about to transition out
     //
-    public virtual void OnPreTransitionOut() {}
+    public virtual void OnPreTransitionOut() 
+	{
+		if(PreTransitionOut!=null)
+		{
+			PreTransitionOut.Invoke();
+		}
+	}
 
 
     // Called after screen has transitioned out
     //
-    public virtual void OnTransitionOutComplete() {}
+    public virtual void OnTransitionOutComplete() 
+	{
+		if(AfterTransitionOut!=null)
+		{
+			AfterTransitionOut.Invoke();
+		}
+
+	}
 
 
     // Called immediatly once scene canvas renderer becomes enabled after transition
@@ -164,7 +221,6 @@ public class ScreenRoot : MonoBehaviour
 
     public virtual void BackButtonSelected()
     {
-		//move background back, can be commented if we do not use scrolling background
 
     }
     

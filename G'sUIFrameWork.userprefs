@@ -1,13 +1,15 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scenes/UIManager.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scenes/ScreenRoot.cs">
     <Files>
-      <File FileName="Assets/Scenes/ScreenRoot.cs" Line="108" Column="32" />
-      <File FileName="Assets/Scenes/DebugUtil.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scenes/UIManager.cs" Line="312" Column="14" />
-      <File FileName="Assets/Editor/UIManagerEditor.cs" Line="72" Column="22" />
-      <File FileName="Assets/Scenes/PopUpRoot.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scenes/EditorApplication.cs" Line="8" Column="2" />
+      <File FileName="Assets/Editor/SceneAutoLoad.cs" Line="2" Column="19" />
+      <File FileName="Assets/Scenes/NextScreenBtn.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scenes/BackBtn.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scenes/ScreenRoot.cs" Line="114" Column="63" />
+      <File FileName="Assets/Scenes/UIManager.cs" Line="205" Column="22" />
+      <File FileName="Assets/Scenes/HidePopUpBtn.cs" Line="13" Column="2" />
+      <File FileName="Assets/Scenes/LoadingText.cs" Line="1" Column="1" />
+      <File FileName="Assets/RTSPTest.cs" Line="3" Column="15" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

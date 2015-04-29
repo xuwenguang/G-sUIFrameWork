@@ -34,6 +34,8 @@ public class UIManager : MonoBehaviour {
 	
 	public Screen[] Screens;
 
+	private Dictionary <string,Screen> ScreenDict=new Dictionary<string, Screen>();
+
 //	 Use this for initialization
 	void Awake()
 	{
@@ -41,6 +43,13 @@ public class UIManager : MonoBehaviour {
 		{
 			instance=this;
 		}
+
+		//initialize screenDict, it is more efficient this way, if do a parse every time when call the show screen function, it will be O(n)
+		foreach(Screen s in Screens)
+		{
+			ScreenDict.Add(s.scene.name,s);
+		}
+
 #if UNITY_EDITOR
 		EditorApplication.playmodeStateChanged += UpdateBuildSettingScenes;
 #endif
@@ -179,7 +188,7 @@ public class UIManager : MonoBehaviour {
 		{
 			if(s.ActiveOnLoad==true)
 			{
-				ShowScreen(s);
+				ShowScreen(s.scene.name);
 			}
 		}
 
@@ -193,12 +202,14 @@ public class UIManager : MonoBehaviour {
 		EventSystemComp.enabled=inputEnabled;
 	}
 
-	public void ShowScreen(Screen screen, string animTransitionIn = ScreenRoot.DEFAULT_TRANSITION_IN, string animTransitionOut = ScreenRoot.DEFAULT_TRANSITION_OUT, System.Action setupCB = null )
+	public void ShowScreen(string screenName, bool playAnimation=true, System.Action setupCB = null )
 	{
-
+		Screen screen=GetScreen(screenName);
+		ScreenRoot screenScript=GetScreenScript(screen);
+	
 		PushPreviousScreenToPreviousScreenList(screen);
 		
-		StartCoroutine( _TransitionScreenIn( screen, animTransitionIn, animTransitionOut, () =>
+		StartCoroutine( _TransitionScreenIn( screen, playAnimation, () =>
 		                                                     {
 			if ( setupCB != null )
 			{
@@ -208,8 +219,13 @@ public class UIManager : MonoBehaviour {
 		
 	}
 
+	public Screen GetScreen(string screenName)
+	{
+		return ScreenDict[screenName];
+	}
+
 	
-	IEnumerator _TransitionScreenIn( Screen newScene, string stateName, string outStateName, System.Action setupCB )
+	IEnumerator _TransitionScreenIn( Screen newScene, bool playAnim, System.Action setupCB ,bool isBackBtn=false)
 	{
 		
 		ToggleGlobalInput( false );
@@ -225,7 +241,7 @@ public class UIManager : MonoBehaviour {
 		}
 		else // Perform full transition between current and new
 		{       
-			yield return StartCoroutine( _PerformTransition( screenIn, screenOut, outStateName, setupCB ) );
+			yield return StartCoroutine( _PerformTransition( screenIn, screenOut,playAnim, setupCB ) );
 		}
 		
 		
@@ -242,7 +258,7 @@ public class UIManager : MonoBehaviour {
 		}
 		
 		
-		yield return StartCoroutine( screenIn._TransitionIn( stateName ) );
+		yield return StartCoroutine( screenIn._TransitionIn( playAnim ,isBackBtn) );
 		screenIn.OnTransitionInComplete();
 	
 		ToggleGlobalInput(true);
@@ -255,10 +271,10 @@ public class UIManager : MonoBehaviour {
 		{
 			return false;
 		}
-		return _screenDict[scene] is PopUpRoot;
+		return _screenDict[scene].IsPopUp;
 	}
 	
-	IEnumerator _PerformTransition( ScreenRoot screenIn, ScreenRoot screenOut, string outStateName, System.Action setupCB )
+	IEnumerator _PerformTransition( ScreenRoot screenIn, ScreenRoot screenOut,bool playAnimation, System.Action setupCB ,bool isBackBtn=false)
 	{
 		screenOut.OnPreTransitionOut();
 		screenIn.OnPreTransitionIn();
@@ -291,6 +307,7 @@ public class UIManager : MonoBehaviour {
 			
 			screenIn.OnPreviousScreenTransitionedOut();
 		}
+		, playAnimation,isBackBtn
 		) );
 		
 		// Wait until transition finishes or we manually trigger out
@@ -339,13 +356,17 @@ public class UIManager : MonoBehaviour {
 		
 	}
 	//use to hide overlay screens, like top menu and message box
-	public void HidePopUp(Screen screen, string animTransitionOut = ScreenRoot.DEFAULT_TRANSITION_OUT ) 
+	public void HidePopUp(string screenName, bool playAnimation ) 
 	{
-		StartCoroutine( _OverlayTransitionOut( screen, animTransitionOut, null ) );
+		Screen screen=GetScreen(screenName);
+		if(GetScreenScript(screen).IsPopUp)
+		{
+			StartCoroutine( _OverlayTransitionOut( screen, null ,playAnimation) );
+		}
 	}
 	
 	//transition out function only for overlay screens	
-	IEnumerator _OverlayTransitionOut( Screen currentScene, string stateName, System.Action setupCB )
+	IEnumerator _OverlayTransitionOut( Screen currentScene, System.Action setupCB,bool playAnim=true,bool isBackBtn=false)
 	{
 		ScreenRoot screenOut = _screenDict[currentScene];
 		ScreenRoot screenIn = null;
@@ -354,13 +375,13 @@ public class UIManager : MonoBehaviour {
 		
 		// Transition out current screen
 		// do not put all the screen active state function in the transition out function, this can separate the functionality of the code, will be easier to maintance in the future
-		yield return StartCoroutine( screenOut._TransitionOut(  () =>
+		yield return StartCoroutine( screenOut._TransitionOut(() =>
 		                                                      {
 			screenOut.OnTransitionOutComplete();
 			screenOut.SetSceneActiveState( false );
 			screenOut.OnSceneBecameInvisible();
 			
-		}));
+		},playAnim,isBackBtn));
 		
 		
 		screenOut.OnTransitionOutComplete();
@@ -390,8 +411,10 @@ public class UIManager : MonoBehaviour {
 	
 	
 	//should set the default parameter as the ui screen's default transition back animation string
-	public void BackButtonSelected(string animTransitionIn = null, string animTransitionOut = null)
+	public void BackButtonSelected(bool playAnim)
 	{
+		string animTransitionIn="";
+		string animTransitionOut="";
 		//work on the move back animation
 		//default animation is null, or we can setup a default animation name
 		int lastIndex = previousScreenList.Count - 1;
@@ -401,23 +424,16 @@ public class UIManager : MonoBehaviour {
 			Screen lastScreenInList = previousScreenList[lastIndex];
 			if(lastScreenInList.scene!=_currentScreen.scene)
 			{
-				if(animTransitionIn==null)
-				{
-					//clear previous animation state
-					ResetScreenAnimation(lastScreenInList);
-					animTransitionIn=ScreenRoot.DEFAULT_TRANSITION_IN;
-				}
-				if(animTransitionOut==null)
-				{
-					ResetScreenAnimation(_currentScreen);
-					animTransitionOut=ScreenRoot.DEFAULT_TRANSITION_OUT;
-				}
+				//clear previous animation state
+				ResetScreenAnimation(lastScreenInList);
+				ResetScreenAnimation(_currentScreen);
+		
 				//do not use show screen is because do not want to add this screen to the previous screen list
 				if(!lastScreenInList.CantTransitionBack)
 				{
 					//call the function on UIScreen script, the move background function is in there
-					StartCoroutine( _TransitionScreenIn( lastScreenInList, animTransitionIn, animTransitionOut, 
-					                                                     ()=>{_screenDict[_currentScreen].BackButtonSelected();} ) );
+					StartCoroutine( _TransitionScreenIn( lastScreenInList, playAnim,
+					                                                     ()=>{_screenDict[_currentScreen].BackButtonSelected();},true ) );
 					previousScreenList.RemoveAt (lastIndex);
 				}
 				//remove the last one in the list after press back button once
