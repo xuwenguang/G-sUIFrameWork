@@ -22,7 +22,7 @@ public class UIManager : MonoBehaviour {
 		}
 	}
 
-	public bool LoadMasterSceneOnPlay=true;
+	public bool AutoLoadBootScene=true;
 	public bool AutoLoadUIScenes=true;
 
 	[Serializable]
@@ -50,9 +50,7 @@ public class UIManager : MonoBehaviour {
 			ScreenDict.Add(s.scene.name,s);
 		}
 
-#if UNITY_EDITOR
-		EditorApplication.playmodeStateChanged += UpdateBuildSettingScenes;
-#endif
+
 		EventSystemComp=GameObject.Find("Boot/EventSystem").GetComponent<EventSystem>();
 		EventSystemComp.enabled = false;
 		BootCanvasGO = GameObject.Find ("Boot_Canvas");
@@ -87,7 +85,7 @@ public class UIManager : MonoBehaviour {
 		EditorBuildSettings.scenes = sceneList.ToArray ();
 
 		//save current scene path
-		if(LoadMasterSceneOnPlay)
+		if(AutoLoadBootScene)
 		{
 			PlayerPrefs.SetString(UIManager.MasterScenePathKey,EditorApplication.currentScene);
 		}
@@ -237,11 +235,12 @@ public class UIManager : MonoBehaviour {
 		//
 		if( IsOverlay( newScene ) || _currentScreen.scene == null)
 		{
+			//overlay popup screen do not need to be transition back to so no need to have back transition animations
 			yield return StartCoroutine( _PerformTransition( screenIn, setupCB ) );
 		}
 		else // Perform full transition between current and new
 		{       
-			yield return StartCoroutine( _PerformTransition( screenIn, screenOut,playAnim, setupCB ) );
+			yield return StartCoroutine( _PerformTransition( screenIn, screenOut,playAnim, setupCB,isBackBtn ) );
 		}
 		
 		

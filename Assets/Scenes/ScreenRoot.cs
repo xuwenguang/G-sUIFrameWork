@@ -95,7 +95,7 @@ public class ScreenRoot : MonoBehaviour
     {
         if ( anim != null && inAnimation != null &&playAnim)
 		{
-			string animName=outAnimation.name;
+			string animName=inAnimation.name;
 			if(isBackBtn==true && back_inAnim!=null)
 			{
 				animName=back_inAnim.name;
@@ -116,7 +116,7 @@ public class ScreenRoot : MonoBehaviour
 			string animName=outAnimation.name;
 			if(isBackBtn==true && back_outAnim!=null)
 			{
-				animName=back_outAnim.name
+				animName=back_outAnim.name;
 			}
 			anim.Play(animName);
 			while ( anim.IsPlaying(animName) )
@@ -130,7 +130,7 @@ public class ScreenRoot : MonoBehaviour
 
     public void SetSceneActiveState( bool isActive )
     {
-		DebugUtil.Assert(_canvas!=null,"canvas is fuccccckckckkckckcking null");
+		DebugUtil.Assert(_canvas!=null,"canvas is null");
         _canvas.enabled = isActive;
         Toggle3DObjects( isActive );
     }

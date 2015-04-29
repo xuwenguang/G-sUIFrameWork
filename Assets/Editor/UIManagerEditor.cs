@@ -2,6 +2,7 @@
 using System.Collections;
 using UnityEditor;
 using System;
+using System.Collections.Generic;
 
 [CustomEditor (typeof(UIManager))]
 public class UIManagerEditor : Editor 
@@ -27,6 +28,7 @@ public class UIManagerEditor : Editor
 		{
 			SceneTypeVerification();
 			UpdateMasterScenePath();
+			UpdateBuildSetting();
 		}
 	}
 
@@ -61,7 +63,7 @@ public class UIManagerEditor : Editor
 		//get the reference of the uimanager script
 		var uiManager=target as UIManager;
 
-		if(uiManager.LoadMasterSceneOnPlay)
+		if(uiManager.AutoLoadBootScene)
 		{
 			PlayerPrefs.SetString(UIManager.MasterScenePathKey,EditorApplication.currentScene);
 		}
@@ -85,5 +87,11 @@ public class UIManagerEditor : Editor
 				return;
 			}
 		}
+	}
+
+	public void UpdateBuildSetting()
+	{
+		var uimanager = target as UIManager;
+		uimanager.UpdateBuildSettingScenes ();
 	}
 }
