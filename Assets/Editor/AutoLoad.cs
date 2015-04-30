@@ -2,9 +2,15 @@
 using System.Collections;
 using UnityEditor;
 
-public static class AutoLoadBootScene
+//this will make sure the static constructor being called
+[InitializeOnLoad]
+public static class AutoLoad
 {
-
+	//static constructor
+	static AutoLoad()
+	{
+		EditorApplication.playmodeStateChanged += OnPlayModeChanged;
+	}
 	public static bool AutoLoadBoot {
 		get { return EditorPrefs.GetBool ("BootAutoLoad",false); }
 		set { EditorPrefs.SetBool ("BootAutoLoad", value); }
@@ -25,7 +31,6 @@ public static class AutoLoadBootScene
 	
 	public static void OnPlayModeChanged ()
 	{
-		Debug.LogWarning ("inside on playmode changed");
 		if (!AutoLoadBoot){return;}
 			
 		if(EditorApplication.currentScene==MasterScene )
@@ -49,7 +54,7 @@ public static class AutoLoadBootScene
 			{
 				// User pressed play -- autoload master scene.
 				PreviousScene = EditorApplication.currentScene;
-				if ((EditorApplication.SaveScene (PreviousScene)) || EditorApplication.SaveCurrentSceneIfUserWantsTo ()) 
+				if (EditorApplication.SaveCurrentSceneIfUserWantsTo ()) 
 				{
 					if (!EditorApplication.OpenScene (MasterScene)) 
 					{

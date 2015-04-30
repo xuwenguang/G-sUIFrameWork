@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using UnityEditor;
 using System;
@@ -10,7 +10,6 @@ public class UIManagerEditor : Editor
 	void OnEnable()
 	{
 		EditorApplication.playmodeStateChanged += CheckIfScreenIsNull;
-
 	}
 
 
@@ -92,7 +91,7 @@ public class UIManagerEditor : Editor
 	public void UpdateAutoLoadInfo()
 	{
 		var uimanager = target as UIManager;
-		AutoLoadBootScene.AutoLoadBoot = uimanager.AutoLoadBootScene;
-		AutoLoadBootScene.MasterScene = EditorApplication.currentScene;
+		AutoLoad.AutoLoadBoot = uimanager.AutoLoadBootScene;
+		AutoLoad.MasterScene = EditorApplication.currentScene;
 	}
 }

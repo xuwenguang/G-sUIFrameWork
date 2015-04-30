@@ -39,9 +39,9 @@ public class UIManager : MonoBehaviour {
 //	 Use this for initialization
 	void Awake()
 	{
-#if UNITY_EDITOR
-		EditorApplication.playmodeStateChanged += AutoLoadBootScene.OnPlayModeChanged;
-#endif
+//#if UNITY_EDITOR
+//		EditorApplication.playmodeStateChanged += autoload.OnPlayModeChanged;
+//#endif
 		if(instance==null)
 		{
 			instance=this;

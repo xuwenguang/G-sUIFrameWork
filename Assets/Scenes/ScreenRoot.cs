@@ -28,7 +28,8 @@ public class ScreenRoot : MonoBehaviour
     protected virtual void Awake()
 	{
 #if UNITY_EDITOR
-		if(PlayerPrefs.GetString(UIManager.MasterScenePathKey)!=null)
+		string masterPath=PlayerPrefs.GetString(UIManager.MasterScenePathKey);
+		if(masterPath!=null && masterPath!="")
 		{
 #endif
 			var eventSystem = GetComponentInChildren<UnityEngine.EventSystems.EventSystem>();
