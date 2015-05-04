@@ -44,7 +44,9 @@ public static class AutoLoad
 			}
 			else
 			{
-				//player is inside master scene, so do not need to do anything
+				//player is inside master scene
+				PreviousScene=EditorApplication.currentScene;
+				EditorApplication.SaveCurrentSceneIfUserWantsTo();
 				return;
 			}
 		}

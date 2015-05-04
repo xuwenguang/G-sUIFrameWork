@@ -1,17 +1,22 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Editor/AutoLoad.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Editor/UIManagerEditorScreen.cs">
     <Files>
-      <File FileName="Assets/Editor/SceneAutoLoad.cs" Line="119" Column="19" />
+      <File FileName="Assets/Scenes/UIManager.cs" Line="227" Column="7" />
+      <File FileName="Assets/Scenes/ScreenRoot.cs" Line="1" Column="1" />
+      <File FileName="Assets/Editor/CreateObject.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scenes/LoadGameBtn.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scenes/GameUtil.cs" Line="1" Column="1" />
       <File FileName="Assets/Scenes/NextScreenBtn.cs" Line="1" Column="1" />
       <File FileName="Assets/Scenes/BackBtn.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scenes/ScreenRoot.cs" Line="32" Column="26" />
-      <File FileName="Assets/Scenes/UIManager.cs" Line="15" Column="34" />
       <File FileName="Assets/Scenes/HidePopUpBtn.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scenes/LoadingText.cs" Line="1" Column="1" />
-      <File FileName="Assets/Editor/UIManagerEditor.cs" Line="65" Column="36" />
-      <File FileName="Assets/Editor/AutoLoad.cs" Line="54" Column="5" />
-      <File FileName="Assets/Editor/CreateObject.cs" Line="11" Column="3" />
+      <File FileName="Assets/Editor/UIManagerEditor.cs" Line="1" Column="1" />
+      <File FileName="Assets/Editor/AutoLoad.cs" Line="1" Column="1" />
+      <File FileName="Assets/Game/AutoRotation.cs" Line="1" Column="1" />
+      <File FileName="Assets/GameUI/CanExistTogetherGroup.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scenes/RemoveNonUIScene.cs" Line="1" Column="1" />
+      <File FileName="Assets/GameUI/StartScreenScript.cs" Line="8" Column="24" />
+      <File FileName="Assets/Editor/UIManagerEditorScreen.cs" Line="13" Column="16" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

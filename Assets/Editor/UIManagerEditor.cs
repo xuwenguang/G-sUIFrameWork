@@ -70,13 +70,27 @@ public class UIManagerEditor : Editor
 	public void CheckIfScreenIsNull()
 	{
 		var um = target as UIManager;
+
+//		for(int i=0;i<um.Screens.Length-1;i++)
+//		{
+//			UIManager.Screen s=um.Screens[i];
+//			if(s.scene==null)
+//			{
+//				EditorApplication.isPlaying=false;
+//				EditorApplication.Beep();
+//				Debug.LogError("The number "+i+"scene in screens list should not be null");
+//				return;
+//			}
+//		}
+
 		foreach(UIManager.Screen s in um.Screens)
 		{
 			if(s.scene==null)
 			{
+				Debug.Log(s.scene.name);
 				EditorApplication.isPlaying=false;
 				EditorApplication.Beep();
-				Debug.LogError("The scene in screens should not be null");
+				Debug.LogError("The scene in screens list should not be null");
 				return;
 			}
 		}

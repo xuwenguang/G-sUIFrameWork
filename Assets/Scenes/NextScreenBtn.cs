@@ -6,9 +6,13 @@ public class NextScreenBtn : MonoBehaviour {
 
 	public string NextScreenName;
 	public bool playAnim;
+	public bool autoTrigger=true;
 	void Awake()
 	{
-		GetComponent<Button>().onClick.AddListener(ShowNextScreen);
+		if(autoTrigger)
+		{
+			GetComponent<Button>().onClick.AddListener(ShowNextScreen);
+		}
 	}
 	public void ShowNextScreen()
 	{

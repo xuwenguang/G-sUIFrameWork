@@ -47,15 +47,24 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\AnimationTest.cs" />
+     <Compile Include="Assets\Game\AutoRotation.cs" />
+     <Compile Include="Assets\GameUI\CanExistTogetherGroup.cs" />
+     <Compile Include="Assets\GameUI\StartScreenScript.cs" />
      <Compile Include="Assets\Scenes\BackBtn.cs" />
      <Compile Include="Assets\Scenes\DebugUtil.cs" />
      <Compile Include="Assets\Scenes\EditorApplication.cs" />
      <Compile Include="Assets\Scenes\GameUtil.cs" />
      <Compile Include="Assets\Scenes\HidePopUpBtn.cs" />
+     <Compile Include="Assets\Scenes\LoadGameBtn.cs" />
      <Compile Include="Assets\Scenes\LoadingText.cs" />
      <Compile Include="Assets\Scenes\NextScreenBtn.cs" />
+     <Compile Include="Assets\Scenes\RemoveNonUIScene.cs" />
      <Compile Include="Assets\Scenes\ScreenRoot.cs" />
      <Compile Include="Assets\Scenes\UIManager.cs" />
+     <None Include="Assets\Game\Shaders\ReflectiveDiffuseSpecTransp.shader" />
+     <None Include="Assets\Game\Shaders\DiffuseReflectiveShader.shader" />
+     <None Include="Assets\Game\Shaders\ReflectiveDiffuseSpec.shader" />
+     <None Include="Assets\skybox\Shaders\SkyboxHDR.shader" />
  <Reference Include="UnityEngine.UI">
  <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>

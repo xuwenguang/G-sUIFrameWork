@@ -48,8 +48,12 @@
   <ItemGroup>
      <Compile Include="Assets\Editor\AutoLoad.cs" />
      <Compile Include="Assets\Editor\CreateObject.cs" />
-     <Compile Include="Assets\Editor\SceneAutoLoad.cs" />
      <Compile Include="Assets\Editor\UIManagerEditor.cs" />
+     <Compile Include="Assets\Editor\UIManagerEditorScreen.cs" />
+     <None Include="Assets\Game\Shaders\ReflectiveDiffuseSpecTransp.shader" />
+     <None Include="Assets\Game\Shaders\DiffuseReflectiveShader.shader" />
+     <None Include="Assets\Game\Shaders\ReflectiveDiffuseSpec.shader" />
+     <None Include="Assets\skybox\Shaders\SkyboxHDR.shader" />
  <Reference Include="UnityEngine.UI">
  <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>

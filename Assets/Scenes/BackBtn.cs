@@ -4,13 +4,17 @@ using UnityEngine.UI;
 
 public class BackBtn : MonoBehaviour {
 
-	public bool PlayAnimation;
+	public bool PlayAnim;
+	public bool autoTrigger=true;
 	void Awake()
 	{
-		GetComponent<Button>().onClick.AddListener(OnBackBtnClicked);
+		if(autoTrigger)
+		{
+			GetComponent<Button>().onClick.AddListener(OnBackBtnClicked);
+		}
 	}
 	public void OnBackBtnClicked()
 	{
-		UIManager.Instance.BackButtonSelected(PlayAnimation);
+		UIManager.Instance.BackButtonSelected(PlayAnim);
 	}
 }

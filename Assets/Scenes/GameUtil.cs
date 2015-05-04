@@ -4,7 +4,7 @@ using System;
 
 public static class GameUtil
 {
-	static IEnumerator LoadNonUIScene(string sceneName,Action cb)
+	public static IEnumerator LoadNonUIScene(string sceneName,Action cb)
 	{
 		AsyncOperation async = Application.LoadLevelAdditiveAsync(sceneName);
 		yield return async;

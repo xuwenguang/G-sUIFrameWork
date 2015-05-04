@@ -46,6 +46,10 @@ public class UIManager : MonoBehaviour {
 		{
 			instance=this;
 		}
+		else
+		{
+			Debug.LogError("there is two uimanager script active at the same time");
+		}
 
 		//initialize screenDict, it is more efficient this way, if do a parse every time when call the show screen function, it will be O(n)
 		foreach(Screen s in Screens)
@@ -211,7 +215,18 @@ public class UIManager : MonoBehaviour {
 
 	public Screen GetScreen(string screenName)
 	{
-		return ScreenDict[screenName];
+		try
+		{
+			return ScreenDict[screenName];
+		}
+		catch(KeyNotFoundException e)
+		{
+			Debug.LogError("there is no scene called "+screenName);
+#if UNITY_EDITOR
+			EditorApplication.isPlaying=false;
+#endif
+			return new Screen();
+		}
 	}
 
 	

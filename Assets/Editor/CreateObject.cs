@@ -33,6 +33,10 @@ public class CreateObject
 			camera=Camera.allCameras[0].gameObject;
 		}
 
+		camera.GetComponent<Camera>().clearFlags = CameraClearFlags.Depth;
+		//set up the depth of the camera so it can overlay on top of other none ui screens
+		camera.GetComponent<Camera>().depth = -10;
+
 		camera.transform.SetParent(screenRoot.transform,true);
 		eventSys.transform.SetParent (screenRoot.transform,true);
 	}
@@ -64,7 +68,7 @@ public class CreateObject
 		var btn = new GameObject ("BackButton");
 		btn.AddComponent<Button>();
 		btn.AddComponent<Image>();
-		btn.AddComponent<BackBtn>().PlayAnimation=true;
+		btn.AddComponent<BackBtn>().PlayAnim=true;
 		GameObject text = new GameObject ("Text");
 		Text t = text.AddComponent<Text> ();
 		t.text="back";
