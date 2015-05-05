@@ -1,8 +1,9 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Editor/UIManagerEditorScreen.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scenes/UIManager.cs">
     <Files>
-      <File FileName="Assets/Scenes/UIManager.cs" Line="227" Column="7" />
+      <File FileName="Assets/Editor/UIManagerEditorScreen.cs" Line="31" Column="3" />
+      <File FileName="Assets/Scenes/UIManager.cs" Line="20" Column="4" />
       <File FileName="Assets/Scenes/ScreenRoot.cs" Line="1" Column="1" />
       <File FileName="Assets/Editor/CreateObject.cs" Line="1" Column="1" />
       <File FileName="Assets/Scenes/LoadGameBtn.cs" Line="1" Column="1" />
@@ -15,8 +16,7 @@
       <File FileName="Assets/Game/AutoRotation.cs" Line="1" Column="1" />
       <File FileName="Assets/GameUI/CanExistTogetherGroup.cs" Line="1" Column="1" />
       <File FileName="Assets/Scenes/RemoveNonUIScene.cs" Line="1" Column="1" />
-      <File FileName="Assets/GameUI/StartScreenScript.cs" Line="8" Column="24" />
-      <File FileName="Assets/Editor/UIManagerEditorScreen.cs" Line="13" Column="16" />
+      <File FileName="Assets/GameUI/StartScreenScript.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

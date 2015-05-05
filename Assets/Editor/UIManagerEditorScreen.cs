@@ -4,8 +4,9 @@ using UnityEditor;
 
 public class UIManagerEditorScreen : EditorWindow {
 
+	//static variables can be persistent even you close the editor window and then open it, non static is not working like this
 	public static bool autoLoad=false;
-	public Object bootSceneObj;
+	public static Object bootSceneObj;
 
 	// Add menu named "Setting" to the UIManager menu
 	[MenuItem ("UIManager/Setting")] 
@@ -15,19 +16,21 @@ public class UIManagerEditorScreen : EditorWindow {
 	
 	void OnGUI () 
 	{
-		//create autoload checkbox here
-		//maybe add all the screen list to here
-		//reference the boot scene in here
-
 		GUILayout.Label ("UIManager Editor Settings",EditorStyles.boldLabel);
-		EditorGUILayout.HelpBox ("Drag the Boot scene of your game into the object field and if the Auto-load toggle is checked, every time you play the game it will start from your boot scene",MessageType.Info); 
+		EditorGUILayout.HelpBox ("check here to auto load boot scene ",MessageType.Info); 
 		autoLoad = EditorGUILayout.Toggle ("Auto-load boot scene",autoLoad);
-		EditorGUILayout.BeginHorizontal ();
-		GUILayout.Label ("Boot Scene");
-		bootSceneObj = EditorGUILayout.ObjectField (bootSceneObj,typeof(Object),true);
-		EditorGUILayout.EndHorizontal ();
+		if(autoLoad)
+		{
+			EditorGUILayout.BeginHorizontal ();
+			GUILayout.Label ("Boot Scene");
+			bootSceneObj = EditorGUILayout.ObjectField (bootSceneObj,typeof(Object),true);
+			EditorGUILayout.EndHorizontal ();
+		}
+
+		//update build setting button in here
+
 
 		//help link
-	http://docs.unity3d.com/ScriptReference/EditorGUILayout.ObjectField.html
+//	http://docs.unity3d.com/ScriptReference/EditorGUILayout.ObjectField.html
 	}
 }
