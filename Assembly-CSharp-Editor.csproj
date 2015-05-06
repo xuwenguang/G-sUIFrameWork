@@ -49,7 +49,7 @@
      <Compile Include="Assets\Editor\AutoLoad.cs" />
      <Compile Include="Assets\Editor\CreateObject.cs" />
      <Compile Include="Assets\Editor\UIManagerEditor.cs" />
-     <Compile Include="Assets\Editor\UIManagerEditorScreen.cs" />
+     <Compile Include="Assets\Editor\UIManagerSettingEditor.cs" />
      <None Include="Assets\Game\Shaders\ReflectiveDiffuseSpecTransp.shader" />
      <None Include="Assets\Game\Shaders\DiffuseReflectiveShader.shader" />
      <None Include="Assets\Game\Shaders\ReflectiveDiffuseSpec.shader" />
