@@ -7,7 +7,7 @@ using UnityEngine.EventSystems;
 public class CreateObject  
 {
 	[MenuItem("GameObject/UI/Screen Root")]
-	private static void CreateScreenRoot()
+	public static void CreateScreenRoot()
 	{
 		string[] path = EditorApplication.currentScene.Split (char.Parse("/"));
 		string sceneName ="Screen_"+ path [path.Length - 1].Replace(".unity","");
@@ -42,7 +42,7 @@ public class CreateObject
 	}
 
 	[MenuItem("GameObject/UI/Next Screen Button")]
-	private static void CreateNextButton()
+	public static void CreateNextButton()
 	{
 		var btn = new GameObject ("NextScreenButton");
 		btn.AddComponent<Button>();
@@ -63,7 +63,7 @@ public class CreateObject
 	}
 
 	[MenuItem("GameObject/UI/Back Button")]
-	private static void CreateBackButton()
+	public static void CreateBackButton()
 	{
 		var btn = new GameObject ("BackButton");
 		btn.AddComponent<Button>();
@@ -82,7 +82,7 @@ public class CreateObject
 	}
 
 	[MenuItem("GameObject/UI/Generate Boot Screen")]
-	private static void GenerateBootScreen()
+	public static void GenerateBootScreen()
 	{
 		GameObject boot = new GameObject ("Boot");
 		boot.AddComponent<UIManager>();

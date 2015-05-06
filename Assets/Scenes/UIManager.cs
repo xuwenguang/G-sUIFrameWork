@@ -25,6 +25,10 @@ public class UIManager : MonoBehaviour {
 	public bool AutoLoadBootScene=true;
 	public bool AutoLoadUIScenes=true;
 
+#if UNITY_EDITOR
+	public bool AutoUpdateBuildSetting=true;
+#endif
+
 	[Serializable]
 	public struct Screen {
 		public bool ActiveOnLoad;
@@ -70,26 +74,38 @@ public class UIManager : MonoBehaviour {
 #if UNITY_EDITOR
 	public void UpdateBuildSettingScenes()
 	{
-		List<EditorBuildSettingsScene> sceneList = new List<EditorBuildSettingsScene> ();
-		foreach(EditorBuildSettingsScene s in EditorBuildSettings.scenes)
+		if(AutoUpdateBuildSetting)
 		{
-			sceneList.Add(s);
+			List<EditorBuildSettingsScene> sceneList = new List<EditorBuildSettingsScene> ();
+			
+			//update master scene build setting
+			string bootScenePath = EditorPrefs.GetString ("MasterPath");
+			sceneList.Add (new EditorBuildSettingsScene(bootScenePath,true));
+			
+			foreach(EditorBuildSettingsScene s in EditorBuildSettings.scenes)
+			{
+				sceneList.Add(s);
+			}
+			
+			Debug.LogWarning (sceneList.Count);
+			
+			foreach(Screen screen in Screens)
+			{
+				bool inList=false;
+				string scenePath=AssetDatabase.GetAssetPath(screen.scene);
+				EditorBuildSettings.scenes.ToList().ForEach(x=>{
+					if(x.path==scenePath)
+					{
+						inList=true;
+					}
+				});
+				
+				if(!inList)
+					sceneList.Add(new EditorBuildSettingsScene(scenePath,true));
+			}
+			EditorBuildSettings.scenes = sceneList.ToArray ();
 		}
-		foreach(Screen screen in Screens)
-		{
-			bool inList=false;
-			string scenePath=AssetDatabase.GetAssetPath(screen.scene);
-			EditorBuildSettings.scenes.ToList().ForEach(x=>{
-				if(x.path==scenePath)
-				{
-					inList=true;
-				}
-			});
 
-			if(!inList)
-				sceneList.Add(new EditorBuildSettingsScene(scenePath,true));
-		}
-		EditorBuildSettings.scenes = sceneList.ToArray ();
 	}
 #endif
 
