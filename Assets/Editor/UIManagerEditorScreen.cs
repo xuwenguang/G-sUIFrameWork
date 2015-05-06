@@ -69,7 +69,7 @@ public class UIManagerEditorScreen : EditorWindow {
 			EditorApplication.Beep();
 			showWarning=true;
 			EditorUtility.DisplayDialog("Please Select the Boot Scene","You have to select the boot scenein the UIManager setting window or uncheck the auto-load boot scene option","OK");
-			this.Focus();//???
+			Focus();
 		}
 		else
 		{
