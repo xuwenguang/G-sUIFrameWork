@@ -22,7 +22,7 @@ public class UIManager : MonoBehaviour {
 		}
 	}
 
-	public bool AutoLoadBootScene=true;
+//	public bool AutoLoadBootScene=true;
 	public bool AutoLoadUIScenes=true;
 
 #if UNITY_EDITOR
@@ -86,8 +86,6 @@ public class UIManager : MonoBehaviour {
 			{
 				sceneList.Add(s);
 			}
-			
-			Debug.LogWarning (sceneList.Count);
 			
 			foreach(Screen screen in Screens)
 			{

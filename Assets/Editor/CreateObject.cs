@@ -108,10 +108,12 @@ public class CreateObject
 
 		GameObject loadingText = new GameObject ("LoadingText");
 		Text t = loadingText.AddComponent<Text> ();
-		t.alignment=TextAnchor.MiddleCenter;
+		t.alignment=TextAnchor.MiddleLeft;
 		t.text="Loading...";
 		loadingText.AddComponent<LoadingText>();
 		loadingText.transform.SetParent (bootCanvas.transform,false);
 	}
+
+
 	
 }

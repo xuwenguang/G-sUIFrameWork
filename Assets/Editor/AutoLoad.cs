@@ -31,7 +31,12 @@ public static class AutoLoad
 	
 	public static void OnPlayModeChanged ()
 	{
-		if (!AutoLoadBoot){return;}
+		//initialize uimanager setting screen
+		UIManagerSettingEditor.bootSceneObj = Resources.LoadAssetAtPath (MasterScene,typeof(Object));
+		if(MasterScene==""||MasterScene==null)
+		{
+			return;
+		}
 			
 		if(EditorApplication.currentScene==MasterScene )
 		{
