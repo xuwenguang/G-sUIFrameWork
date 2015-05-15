@@ -37,43 +37,31 @@ public static class AutoLoad
 		{
 			return;
 		}
-			
-		if(EditorApplication.currentScene==MasterScene )
+
+		if (!EditorApplication.isPlaying && EditorApplication.isPlayingOrWillChangePlaymode)
 		{
-			//if the user is going to stop playing 
-			if(EditorApplication.isPlaying && !EditorApplication.isPlayingOrWillChangePlaymode)
+			// User pressed play -- autoload master scene.
+			PreviousScene = EditorApplication.currentScene;
+			if (EditorApplication.SaveCurrentSceneIfUserWantsTo())
 			{
-				if (!EditorApplication.OpenScene (PreviousScene)) {
-					Debug.LogError (string.Format ("error: scene not found: {0}", PreviousScene));
+				if (!EditorApplication.OpenScene(MasterScene))
+				{
+					Debug.LogError(string.Format("error: scene not found: {0}", MasterScene));
+					EditorApplication.isPlaying = false;
 				}
 			}
 			else
 			{
-				//player is inside master scene
-				PreviousScene=EditorApplication.currentScene;
-				EditorApplication.SaveCurrentSceneIfUserWantsTo();
-				return;
+				// User cancelled the save operation -- cancel play as well.
+				EditorApplication.isPlaying = false;
 			}
 		}
-		else
+		if (EditorApplication.isPlaying && !EditorApplication.isPlayingOrWillChangePlaymode)
 		{
-			if (!EditorApplication.isPlaying && EditorApplication.isPlayingOrWillChangePlaymode) 
+			// User pressed stop -- reload previous scene.
+			if (!EditorApplication.OpenScene(PreviousScene))
 			{
-				// User pressed play -- autoload master scene.
-				PreviousScene = EditorApplication.currentScene;
-				if (EditorApplication.SaveCurrentSceneIfUserWantsTo ()) 
-				{
-					if (!EditorApplication.OpenScene (MasterScene)) 
-					{
-						Debug.LogError (string.Format ("error: scene not found: {0}", MasterScene));
-						EditorApplication.isPlaying = false;
-					}
-				} 
-				else 
-				{
-					// User cancelled the save operation -- cancel play as well.
-					EditorApplication.isPlaying = false;
-				}
+				Debug.LogError(string.Format("error: scene not found: {0}", PreviousScene));
 			}
 		}
 	}

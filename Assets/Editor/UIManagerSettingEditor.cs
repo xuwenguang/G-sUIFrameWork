@@ -16,16 +16,17 @@ public class UIManagerSettingEditor : EditorWindow {
 	static void Init () {
 		EditorWindow.GetWindow(typeof(UIManagerSettingEditor));
 
+		//initializing, or it wont show in the editor when you first time open the tab
 		UIManagerSettingEditor.bootSceneObj = Resources.LoadAssetAtPath (AutoLoad.MasterScene,typeof(Object));
 	}
 	
 	void OnGUI () 
 	{
 		GUILayout.Label ("UIManager Editor Settings",EditorStyles.boldLabel);
-		EditorGUILayout.HelpBox ("Select the boot scene in your game to auto load it when play in the editor ",MessageType.Info); 
+		EditorGUILayout.HelpBox ("Select the start scene in your game to auto load it when play in the editor ",MessageType.Info); 
 
 		EditorGUILayout.BeginHorizontal ();
-		GUILayout.Label ("Boot Scene");
+		GUILayout.Label ("Start Scene");
 
 		var previousBootScene=bootSceneObj;
 		bootSceneObj = EditorGUILayout.ObjectField (bootSceneObj,typeof(Object),true);
@@ -36,6 +37,11 @@ public class UIManagerSettingEditor : EditorWindow {
 		}
 
 		EditorGUILayout.EndHorizontal ();
+		if(GUILayout.Button("Clear Start Scene Data"))
+		{
+			//clear the editor prefs here
+			System.IO.Directory.Delete(Application.persistentDataPath, true);
+		}
 
 		EditorGUILayout.HelpBox ("Create UI Element",MessageType.Info);
 		
@@ -61,7 +67,7 @@ public class UIManagerSettingEditor : EditorWindow {
 		}
 		if(showWarning)
 		{
-			EditorGUILayout.HelpBox("Please select the boot scene, or it will not be auto loaded when you play from Unity editor",MessageType.Warning);
+			EditorGUILayout.HelpBox("Please select the start scene, or it will not be auto loaded when you play from Unity editor",MessageType.Warning);
 		}
 	}
 
@@ -72,10 +78,6 @@ public class UIManagerSettingEditor : EditorWindow {
 
 	void OnLostFocus()
 	{
-		if(bootSceneObj!=null)
-		{
-			Debug.Log("i'm not fucking null");
-		}
 		//save master scene path and check if it is null
 		string scenePath=AssetDatabase.GetAssetPath(bootSceneObj);
 		if(bootSceneObj==null)

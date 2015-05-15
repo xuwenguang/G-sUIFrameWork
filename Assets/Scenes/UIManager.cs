@@ -22,7 +22,6 @@ public class UIManager : MonoBehaviour {
 		}
 	}
 
-//	public bool AutoLoadBootScene=true;
 	public bool AutoLoadUIScenes=true;
 
 #if UNITY_EDITOR
@@ -30,10 +29,22 @@ public class UIManager : MonoBehaviour {
 #endif
 
 	[Serializable]
-	public struct Screen {
+	public class Screen {
 		public bool ActiveOnLoad;
 		public bool CantTransitionBack;
 		public UnityEngine.Object scene;
+		public string Name
+		{
+			get
+			{
+				if(scene!=null)
+				{
+					return scene.name.Replace(".unity","");
+				}
+				else
+					return null;
+			}
+		}
 	}
 	
 	public Screen[] Screens;
@@ -43,9 +54,6 @@ public class UIManager : MonoBehaviour {
 //	 Use this for initialization
 	void Awake()
 	{
-//#if UNITY_EDITOR
-//		EditorApplication.playmodeStateChanged += autoload.OnPlayModeChanged;
-//#endif
 		if(instance==null)
 		{
 			instance=this;
@@ -431,7 +439,7 @@ public class UIManager : MonoBehaviour {
 	
 	
 	//should set the default parameter as the ui screen's default transition back animation string
-	public void BackButtonSelected(bool playAnim)
+	public void GoToPreviousScreen(bool playAnim)
 	{
 		string animTransitionIn="";
 		string animTransitionOut="";
@@ -507,7 +515,19 @@ public class UIManager : MonoBehaviour {
 		}
 		
 	}
-	
+
+	public string GetCurrentScreenName()
+	{
+		if(_currentScreen!=null)
+		{
+			return _currentScreen.Name;
+		}
+		else
+		{
+			return null;
+		}
+	}
+
 	public void ClearPreviousScreenList()
 	{
 		if (previousScreenList != null)

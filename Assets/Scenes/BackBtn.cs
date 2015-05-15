@@ -15,6 +15,6 @@ public class BackBtn : MonoBehaviour {
 	}
 	public void OnBackBtnClicked()
 	{
-		UIManager.Instance.BackButtonSelected(PlayAnim);
+		UIManager.Instance.GoToPreviousScreen(PlayAnim);
 	}
 }
